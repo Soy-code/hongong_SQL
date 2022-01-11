@@ -61,3 +61,48 @@ INSERT INTO city_popul
   SELECT Name, Population FROM world.city ; 
 SELECT * FROM city_popul ; 
 
+-- UPDATE
+USE market_db ; 
+SELECT * FROM city_popul ; 
+UPDATE city_popul
+  SET city_name = '서울' 
+  WHERE city_name = 'Seoul'; 
+SELECT * FROM city_popul 
+  WHERE city_name = '서울' ; 
+  
+-- 한꺼번에 여러 데이터 변경
+UPDATE city_popul 
+  SET city_name = '뉴욕', population = 0 
+  WHERE city_name = 'New York' ; 
+SELECT * FROM city_popul WHERE city_name = '뉴욕' ; 
+
+-- 인구 수 만명단위로 변경
+ UPDATE city_popul 
+   SET population = population / 10000 ; 
+SELECT * FROM city_popul LIMIT 5 ; 
+
+-- New로 시작하는 도시 출력
+SELECT * FROM city_popul WHERE city_name LIKE "New%" ; 
+-- New로 시작하는 도시 삭제
+DELETE FROM city_popul WHERE city_name LIKE "New%" ; 
+-- New로 시작하는 도시 재출력
+SELECT * FROM city_popul WHERE city_name LIKE "New%" ; 
+
+-- sakila DB의 country 테이블 description
+DESC sakila.country ; 
+SELECT * FROM sakila.country LIMIT 5 ;
+SELECT count(*) FROM sakila.country ; 
+-- world DB의 city 테이블 description 
+DESC world.city ; 
+SELECT * FROM world.city LIMIT 5 ; 
+SELECT count(*) FROM world.city ; 
+-- create big table
+CREATE TABLE big_table1 (SELECT * FROM world.city, sakila.country) ; -- 어떻게 44만개가 만들어졌는지 모르겠음.. JOINING시켜서 그런건가 
+SELECT * FROM big_table1 LIMIT 5 ; 
+CREATE TABLE big_table2 (SELECT * FROM world.city, sakila.country) ;
+CREATE TABLE big_table3 (SELECT * FROM world.city, sakila.country) ; 
+-- 대용량 테이블 삭제하는 법
+DELETE FROM big_table1 ; -- 시간이 오래 걸림
+DROP TABLE big_table2 ; -- 테이블 자체를 삭제함. 속도 빠름. 
+TRUNCATE TABLE big_table3 ;  -- 테이블의 구조는 남겨놓음. 속도 빠름. 
+
